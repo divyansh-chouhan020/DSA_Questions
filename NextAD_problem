@@ -1,0 +1,95 @@
+// Problem Statement 
+/*
+   An e commerce site has a series of advertisements to display . Links to the ads are stored in a data structure 
+   and they are displayed or not is based on the value at bit position in a number .The sequence of ads being displayed 
+   at this time can be represented as a binary value.Where 1 means the ad is displayed and 0 means ad is not displayed .The 
+   ads should rotate .So , when the next page loads , ads that are displayed now are hidden and vice versa .
+
+1. INPUT =50 
+Output :- 13 
+
+2. INPUT =92 
+Output :- 35 
+ 
+*/
+// Solution Explanation :- 
+/* 
+  The solution is straight forward we are receiving a binary number of 50 --> 110010
+  now lets suppose we have two webpages PAGE1 and PAGE2 if 110010 is displayed over PAGE1 then 
+  on the next page the bits must be flipped i.e negation of previous one .Therfore 001101 means
+  13 must be displayed over PAGE2
+*/
+
+// Logic to Implement 
+
+1.Make a Function NextAD 
+2.Now convert the number into Binary number 
+3. After the remainder bit is obtained now Flip that bit using IF -Else Block and convert the 
+   decimal number corresponding to it 
+4. Now sum up and return to main 
+
+
+// PYTHON CODE :-
+
+
+def nextAD(n):
+    # Lets convert the number to binary 
+    binary =bin(n)
+    #we want to eliminate the first 2 digit from it 
+    # lets slice 
+    binary=binary[2:len(binary)]
+    flip_binary=""
+    # Now my task is to flip the binary bits 
+    for i in range(len(binary)):
+        if  binary[i]=='1':
+            flip_binary+='0'
+        else :
+            flip_binary+='1'
+    
+    #Now after flipping the bit let me convert it to decimal and return 
+    sum=0
+    for i in range(len(flip_binary)):
+        sum =sum+(int(flip_binary[i])*(2**(len(flip_binary)-(i+1))))
+    return sum   
+            
+n =int (input (print ("Enter the number :-")))
+print ("The NextAD will be :- ", nextAD(n))
+
+
+
+
+// C++ CODE :-
+
+#include <iostream>
+using namespace std ;
+int NextAD(int n )
+{
+    int pow=1;
+    int out =0, sum =0;
+    while (n!=0)
+    {
+        int last =n%2;
+        n =n/2;
+        if (last == 0)
+        {
+            out =(last+1) *pow ;
+            sum +=out;
+            pow =pow *2;  
+        }
+        else {
+            pow =pow *2;
+        }
+    }
+    return sum;
+}
+
+int main() {
+   int n ;
+   cout <<"Enter your num:"<<"\n";
+   cin >> n ;
+   // i need to convert the decimal number to binary 
+   cout <<"The Next Ad will be :- "<<NextAD(n)<<"\n";
+   
+
+    return 0;
+}
